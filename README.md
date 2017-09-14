@@ -1,1 +1,3 @@
-# Python Homework
+# CSCI-603
+
+Python homework
