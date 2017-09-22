@@ -5,7 +5,7 @@ You will now implement a program that handles the general case of drawing polygo
 
 ### Program
 Your program should be named __polygons.py__. When it is run on the command line it requires two arguments (in order):
-1. **`#_sides`**: The number of sides of the main polygon (an integer). This value is guaranteed to be between 3 and 8, inclusively.
+1. **`#_sides`**: The number of sides of the main polygon (an integer). This value is guaranteed to be between **3** and **8**, inclusively.
 2. **`[fill|unfill|]`**: If the string **fill** is specified, the polygons will be filled when drawn. Otherwise it is assumed the polygon will be unfilled and just a line drawing.
 
 If the correct number of command line arguments is not supplied, a usage message should be displayed and the program should exit:
