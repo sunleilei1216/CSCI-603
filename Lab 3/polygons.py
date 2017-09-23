@@ -6,11 +6,16 @@ This program draw polygons recursively with the python turtle graphics.
 """
 
 # colors of the polygons
-COLORS = ('#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0033ff', '#ff00ff')
+COLORS = ('#cd0000', '#ff7f00', '#ffff00', '#52cd00', '#006cff', '#ff009c')
 
 # window dimensions
 WINDOW_LENGTH = 800
+
+# sides length of main polygon
 SIDE_LENGTH = 200
+
+# reduction factor of different level polygons
+REDUCTION_FACTOR = 0.5
 
 # pen sizes to use for filled and unfilled polygons
 FILL_PEN_WIDTH = 2
@@ -110,7 +115,7 @@ def drawPolygons(side, length, isFill=False):
         turtle.left(90)
         # draw the smaller polygon with one less side number and half of the length
         # adding the total length of smaller polygons to the sum
-        sum += drawPolygons(side - 1, length / 2.0, isFill)
+        sum += drawPolygons(side - 1, length * REDUCTION_FACTOR, isFill)
         turtle.right(90)
         turtle.left(360.0 / side)
 
@@ -168,9 +173,9 @@ def main():
             return
 
     # initialize the turtle
-    init(int(sys.argv[1]), isFill)
+    init(sides, isFill)
     # draw the polygons and calculate total length drawn
-    sum = drawPolygons(int(sys.argv[1]), SIDE_LENGTH, isFill)
+    sum = drawPolygons(sides, SIDE_LENGTH, isFill)
     print("Sum: %d" % sum)
 
     turtle.update()
