@@ -99,6 +99,59 @@ def encryptMsg(msg, trans):
     return msg
 
 
+def decryptMsg(msg, trans):
+    """
+    Decrypt the message with given transformation by calling corresponding transformation function.
+
+    :param msg:    the message needed to decrypt
+    :param trans:    the list of transformation
+    :return:    string after decrypt
+    """
+    for i in range(len(trans) -1, -1, -1):
+        # transformation is shift
+        if (trans[i][0] == 'S'):
+            if (len(trans[i]) == 2):
+                msg = shift(msg, trans[i][1], -1)
+            else:
+                msg = shift(msg, trans[i][1], -trans[i][2])
+        # transformation is rotate
+        elif (trans[i][0] == 'R'):
+            if (len(trans[i]) == 1):
+                msg = rotate(msg, -1)
+            else:
+                msg = rotate(msg, -trans[i][1])
+        # transformation is duplicate
+        elif (trans[i][0] == 'D'):
+            if (len(trans[i]) == 2):
+                msg = duplicate(msg, trans[i][1])
+            else:
+                msg = duplicate(msg, trans[i][1], trans[i][2])
+        # transformation is swap
+        elif (trans[i][0] == 'T'):
+            if (len(trans[i]) == 3):
+                msg = swap(msg, trans[i][1], trans[i][2])
+            else:
+                msg = swap(msg, trans[i][1], trans[i][2], trans[i][3])
+
+    return msg
+
+
+def isEncrypt():
+    """
+    Determine whether encrypt or decrypt the message with given transformation.
+
+    :return:    True if encrypt the message, False if not
+    """
+    while (True):
+        ch = input("Do you want to encrypt the message or decrypt it? (e/d)\n> ")
+        if (ch == 'e' or ch == 'E'):
+            return True
+        elif (ch == 'd' or ch == 'D'):
+            return False
+        else:
+            print("The input should be d or e!")
+
+
 def init(trans):
     """
     Initialize the transformations list. Convert the transformation string into a list, where first character indicate
@@ -154,7 +207,7 @@ def readFile(filename):
     :param filename:    the name of the file
     :return:    a list contain each lines of the file
     """
-    lines = []    # list of lines
+    lines = []  # list of lines
 
     try:
         file = open(filename)
@@ -165,6 +218,9 @@ def readFile(filename):
         # remove the line feed symbol behind the content
         for i in range(len(lines)):
             lines[i] = lines[i].splitlines()[0]
+            # convert to uppercase if the string contain not uppercase letter
+            if (not lines[i].isupper()):
+                lines[i] = lines[i].upper()
 
         file.close()
 
@@ -193,19 +249,27 @@ def main():
     print()
 
     print("transformation:")
-    transformation = readFile(sys.argv[2])
-    init(transformation)
-    for a in transformation:
+    transform = readFile(sys.argv[2])
+    init(transform)
+    for a in transform:
         print(a)
 
     print()
 
-    for i in range(len(message)):
-        message[i] = encryptMsg(message[i], transformation[i])
+    encrypt = isEncrypt()
+    if (encrypt):
+        print("Encrypt it...")
+    else:
+        print("Decrypt it...")
 
-    print("\nAfter encrypted:")
-    for m in message:
-        print(m)
+    print()
+
+    for i in range(len(message)):
+        if (encrypt):
+            print(encryptMsg(message[i], transform[i]))
+        else:
+            print(decryptMsg(message[i], transform[i]))
+        print()
 
 
 if __name__ == '__main__':
