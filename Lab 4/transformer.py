@@ -230,7 +230,7 @@ def isEncrypt():
     """
 
     while (True):
-        ch = input("Do you want to encrypt the message or decrypt it? (e/d)\n> ")
+        ch = input("Do you want to encrypt the message or decrypt it? (e/d)\n")
         if (ch == 'e' or ch == 'E'):
             return True
         elif (ch == 'd' or ch == 'D'):
@@ -324,11 +324,11 @@ def main():
     """
     # missing filename in commandline input
     if (len(sys.argv) < 3):
-        print("Missing file name!\n"
-              + "Run the program like:\n"
-              + "$ python3 transformer.py #_messageFileName #_transformationFileName\n"
-              + "  #_messageFileName: the file name of message needed to encrypt/decrypt\n"
-              + "  #_transformationFileName: the file name of transformation sequence")
+        print("Missing file name!\nRun the program like:\n$ python3"
+              + "transformer.py #_messageFileName #_transformationFileName\n"
+              + "  #_messageFileName: the file name of message needed to"
+              + "encrypt/decrypt\n  #_transformationFileName: the file name of"
+              + "transformation sequence")
 
         sys.exit(1)
 
