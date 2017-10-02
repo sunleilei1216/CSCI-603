@@ -64,6 +64,12 @@ def duplicate(msg, index, number=1):
     if number >= 0:
         duplicated_msg = msg[:index] + msg[index] * number + msg[index:]
     else:  # deduplication
+        for i in range(index + 1, index - number + 1):
+            # exist a character not equal to the character at index
+            if (msg[i] != msg[index]):
+                print("ERROR: %s cannot be decrypt by DUPLICATE!" % msg)
+                return msg
+
         duplicated_msg = msg[:index] + msg[index - number:]
 
     print(
@@ -230,7 +236,8 @@ def isEncrypt():
     """
 
     while (True):
-        ch = input("Do you want to encrypt the message or decrypt it? (e/d)\n")
+        ch = input("\nDo you want to encrypt the message or decrypt it? ("
+                   "e/d)\n> ")
         if (ch == 'e' or ch == 'E'):
             return True
         elif (ch == 'd' or ch == 'D'):
@@ -320,7 +327,7 @@ def readFile(filename):
 
 def main():
     """
-    The main function of the progran.
+    The main function of the program.
     """
     # missing filename in commandline input
     if (len(sys.argv) < 3):
@@ -333,31 +340,36 @@ def main():
         sys.exit(1)
 
     print("message:")
+    # read the message file and print it in format
     message = readFile(sys.argv[1])
     for m in message:
         print(m)
 
-    print()
-
-    print("transformation:")
+    print("\ntransformation:")
+    # read the transformation file
     transform = readFile(sys.argv[2])
+
+    # lines number in two files are not equal
+    if (len(transform) < len(message)):
+        print("Missing transformations of encryption/decryption in file!\n"
+              + "Please check your file and try again.")
+        sys.exit(1)
+
+    # initialize the list
     init(transform)
+    # print it in format
     for a in transform:
         print(a)
 
-    print()
-
     encrypt = isEncrypt()
 
-    print()
-
     if (encrypt):
-        print("Encrypt it...")
+        print("\nEncrypt it...\n")
     else:
-        print("Decrypt it...")
+        print("\nDecrypt it...\n")
 
-    print()
-
+    # traversal the message list and encrypt/decrypt with corresponding
+    # transformations
     for i in range(len(message)):
         if (encrypt):
             print(encryptMsg(message[i], transform[i]))
