@@ -36,6 +36,8 @@ class Kebab:
 
         print("Kebab commands:")
         print("add item - adds an item to the skewer")
+        print("calories - get the total number of calories of items on the "
+              "skewer")
         print("create N - creates a skewer to hold N items")
         print("destroy - destroys the current skewer")
         print("display - displays all the items on the skewer, in order")
@@ -46,7 +48,6 @@ class Kebab:
         print("quit - exit the program")
         print("status - the capacity and current number of items on the skewer")
         print("vegan - does the skewer have any meat?")
-        print("calories - total calories of all food items on the skewer")
 
     def create(self, args):
         """
@@ -178,7 +179,7 @@ class Kebab:
         Displays the total calories of all items on the skewer.
         :return: calories sum
         """
-        print("The skewer contains %d calories." % self.skewer.calories())
+        print("The skewer has %d calories." % self.skewer.calories())
 
     def foods(self, args):
         """
