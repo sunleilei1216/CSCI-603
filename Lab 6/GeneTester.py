@@ -33,16 +33,18 @@ def main():
     # test of join(self, other)
     print("\n----join----\n")
 
-    list1.join(DNAList("C"))
-    print("list1.join(DNAList(\"C\"))\n%s" % list1)
-    list1.join(DNAList("CAT"))
-    print("list1.join(DNAList(\"CAT\"))\n%s" % list1)
+    list1.join(DNAList())
+    print("list1.join(DNAList())\n%s" % list1)
+    list1.join(DNAList("CCAT"))
+    print("list1.join(DNAList(\"CCAT\"))\n%s" % list1)
 
     # test of splice(self, ind, other)
     print("\n----splice----\n")
 
     list1.splice(3, DNAList("TAT"))
     print("list1.splice(3, DNAList(\"TAT\"))\n%s" % list1)
+    list1.splice(-1, DNAList("GTA"))
+    print("list1.splice(-1, DNAList(\"GTA\"))\n%s" % list1)
 
     # test of snip(self, i1, i2)
     print("\n----snip----\n")
@@ -51,12 +53,20 @@ def main():
     print("list1.snip(0, 2)\n%s" % list1)
     list1.snip(1, 4)
     print("list1.snip(1, 4)\n%s" % list1)
+    list1.snip(5, 2)
+    print("list1.snip(5, 2)\n%s" % list1)
+    list1.snip(-1, 4)
+    print("list1.snip(-1, 4)\n%s" % list1)
 
     # test of replace(self, repstr, other)
     print("\n----replace----\n")
 
     list1.replace("CAT", DNAList("TG"))
     print("list1.replace(\"CAT\", DNAList(\"TG\"))\n%s" % list1)
+    list1.replace("Not exist string", DNAList("TAG"))
+    print("list1.replace(\"Not exist string\", DNAList(\"TAG\"))\n%s" % list1)
+    list1.replace("C", DNAList())
+    print("list1.replace(\"C\", DNAList())\n%s" % list1)
 
     # test of copy(self)
     print("\n----copy----\n")

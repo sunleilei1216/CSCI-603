@@ -83,7 +83,7 @@ class DNAList:
             self.head = other.head
             self.back = other.back
         # the list is not empty
-        else:
+        elif (other.head != None):
             self.back.next = other.head
             self.back = other.back
 
@@ -112,7 +112,7 @@ class DNAList:
         :param s:    the string to matching
         :param cursor:    the pointer to the specified position of the list.
         :return:    the pointer to the end of the string if the string match
-                    the list, False if the string not match the list
+                    the list, -1 if the string not match the list
         """
         # traversal every characters of the string
         for c in s:
@@ -120,7 +120,7 @@ class DNAList:
             if (cursor != None and cursor.value == c):
                 cursor = cursor.next
             else:
-                return False
+                return -1
 
         return cursor
 
@@ -143,7 +143,7 @@ class DNAList:
             end = self.match(s, cursor)
 
             # match result is not False
-            if (end):
+            if (end != -1):
                 return start, end
             # match result is False
             else:
@@ -162,10 +162,26 @@ class DNAList:
         # determine whether there exist the string in the list
         cursor = self.find(repstr)
 
+        # the string exist
         if (cursor != None):
-            # replace the nodes between two pointer with the given list
-            cursor[0].next = other.head
-            other.back.next = cursor[1]
+            if (other.head == None):
+                if (cursor[0] == None):
+                    self.head = cursor[1]
+                elif (cursor[1] == None):
+                    self.back = cursor[0]
+                else:
+                    cursor[0].next = cursor[1]
+            else:
+                # replace the nodes between two pointer with the given list
+                if (cursor[0] == None):
+                    self.head = other.head
+                else:
+                    cursor[0].next = other.head
+
+                if (cursor[1] == None):
+                    self.back = other.back
+                else:
+                    other.back.next = cursor[1]
 
     def copy(self):
         """
