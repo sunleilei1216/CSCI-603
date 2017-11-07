@@ -25,7 +25,7 @@ DELETED = Entry(_delobj(), None)
 class Hashmap:
     __slots__ = 'table', 'numkeys', 'cap', 'maxload', 'collision', 'probe'
 
-    def __init__(self, initsz=100, maxload=0.7):
+    def __init__(self, hash_func=hash, initsz=100, maxload=0.7):
         '''
         Creates an open-addressed hash map of given size and maximum load factor
         :param initsz: Initial size (default 100)
@@ -37,6 +37,7 @@ class Hashmap:
         self.maxload = maxload
         self.collision = 0
         self.probe = 0
+        self.hash_func = hash_func
 
     def put(self, key, value):
         '''
@@ -47,11 +48,15 @@ class Hashmap:
         '''
         index = self.hash_func(key) % self.cap
 
+        # collision happens at the first try of the insertion
+        if self.table[index] is not None and self.table[index] != DELETED:
+            self.collision += 1
+
+        self.probe += 1
         while self.table[index] is not None and \
                         self.table[index] != DELETED and \
                         self.table[index].key != key:
             index += 1
-            self.collision += 1
             self.probe += 1
 
             if index == len(self.table):
@@ -59,7 +64,7 @@ class Hashmap:
 
         if self.table[index] is None:
             self.numkeys += 1
-            self.probe += 1
+            # self.probe += 1
 
         self.table[index] = Entry(key, value)
 
@@ -128,20 +133,6 @@ class Hashmap:
 
         return self.table[index] is not None
 
-    def hash_func(self, key):
-        '''
-        Not using Python's built in hash function here since we want to
-        have repeatable testing...
-        However it is terrible.
-        Assumes keys have a len() though...
-        :param key: Key to store
-        :return: Hash value for that key
-        '''
-        # if we want to switch to Python's hash function, uncomment this:
-        # return hash(key)
-        return len(key)
-
-
 def listOfWords(filename):
     """
     Open a file and return a list of every words in the file.
@@ -174,6 +165,44 @@ def listOfWords(filename):
 def printMap(map):
     for i in range(map.cap):
         print(str(i) + ": " + str(map.table[i]))
+
+
+def hashMidSquare(key, r=4):
+    """
+    Hash the key with the "Mid-Square" method
+
+    :param key:   the key to the hash function
+    :param r:   number of mid-digits to be used for hashing
+    :return    a hash value
+    """
+    value = sum([ord(c) * 8 ** i for i, c in enumerate(key)])
+    value = value % 10 ** (r * 2)
+    valueSquare = value ** 2
+    startDigit = r * 3 / 2 + 1
+    midValue = int(
+        ("{:0" + str(r * 4) + "d}").format(valueSquare)[
+            startDigit:startDigit + 4
+        ]
+    )
+    return midValue
+
+def hashString(key):
+    """
+    Hash the key with 4 bytes folding.
+
+    :param key:   the key to the hash function
+    :return    a hash value
+    """
+
+    value = 0
+    for i in range(0, len(key), 4):
+        subKey = key[i:i + 4]
+        subValue = int(
+            "".join(["{0:08b}".format(ord(c)) for c in key]), 2
+        )
+        value += subValue
+
+    return value
 
 
 def testMap():
