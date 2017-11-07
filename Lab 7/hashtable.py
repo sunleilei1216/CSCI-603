@@ -264,9 +264,9 @@ def testMap():
     PeterPan = listOfWords("Peter Pan.txt")
     ThePrince = listOfWords("The Prince.txt")
 
-    map = Hashmap(hash_func=hashRandomShuffle, initsz=1024, maxload=0.6)
+    map = Hashmap(hash_func=hashRandomShuffle, initsz=1024, maxload=0.8)
 
-    for word in ThePrince:
+    for word in PeterPan:
         if (map.contains(word)):
             num = map.get(word)
             map.put(word, num + 1)
