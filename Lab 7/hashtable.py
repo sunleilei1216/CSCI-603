@@ -7,9 +7,12 @@ Hash table with different hash functions.
 """
 
 from collections import namedtuple
+import random
 import re
 
 Entry = namedtuple('Entry', ('key', 'value'))
+ShuffleMap = list(range(0, 65536))
+random.shuffle(ShuffleMap)
 
 '''
 To make sure that the DELETED sentinel does not match
@@ -25,11 +28,20 @@ DELETED = Entry(_delobj(), None)
 
 
 class Hashmap:
-    __slots__ = 'table', 'numkeys', 'cap', 'maxload', 'collision', 'probe'
+    __slots__ = (
+        'table',
+        'numkeys',
+        'cap',
+        'maxload',
+        'collision',
+        'probe',
+        'hash_func'
+    )
 
     def __init__(self, hash_func=hash, initsz=100, maxload=0.7):
         '''
         Creates an open-addressed hash map of given size and maximum load factor
+        :param hash_func: hash function (default python's builtin hash function)
         :param initsz: Initial size (default 100)
         :param maxload: Max load factor (default 0.7)
         '''
@@ -59,6 +71,7 @@ class Hashmap:
                         self.table[index] != DELETED and \
                         self.table[index].key != key:
             index += 1
+            self.collision += 1
             self.probe += 1
 
             if index == len(self.table):
@@ -66,7 +79,6 @@ class Hashmap:
 
         if self.table[index] is None:
             self.numkeys += 1
-            # self.probe += 1
 
         self.table[index] = Entry(key, value)
 
@@ -165,6 +177,59 @@ def listOfWords(filename):
     return words
 
 
+def hashMidSquare(key, r=4):
+    """
+    Hash the key with the "Mid-Square" method
+
+    :param key:   the key to the hash function
+    :param r:   number of mid-digits to be used for hashing
+    :return    a hash value
+    """
+    value = sum([ord(c) * 8 ** i for i, c in enumerate(key)])
+    value = value % 10 ** (r * 2)
+    valueSquare = value ** 2
+    startDigit = r * 3 / 2 + 1
+    midValue = int(
+        ("{:0" + str(r * 4) + "d}").format(valueSquare)[
+        startDigit:startDigit + 4
+        ]
+    )
+    return midValue
+
+
+def hashString(key):
+    """
+    Hash the key with 4 bytes folding.
+
+    :param key:   the key to the hash function
+    :return    a hash value
+    """
+
+    value = 0
+    for i in range(0, len(key), 4):
+        subKey = key[i:i + 4]
+        subValue = int(
+            "".join(["{0:08b}".format(ord(c)) for c in key]), 2
+        )
+        value += subValue
+
+    return value
+
+
+def hashRandomShuffle(key):
+    """
+    Hash the key with a random shuffle list.
+
+    :param key:    the key to the hash function
+    :return:    the hash value
+    """
+    value = len(key) % 65536
+    for i in key:
+        value = ShuffleMap[(value + ord(i)) % 65536]
+
+    return value
+
+
 def printMap(map):
     for i in range(map.cap):
         print(str(i) + ": " + str(map.table[i]))
@@ -192,53 +257,14 @@ def printMax(map):
     print("Appearance times:              %d" % maxNum)
 
 
-def hashMidSquare(key, r=4):
-    """
-    Hash the key with the "Mid-Square" method
-
-    :param key:   the key to the hash function
-    :param r:   number of mid-digits to be used for hashing
-    :return    a hash value
-    """
-    value = sum([ord(c) * 8 ** i for i, c in enumerate(key)])
-    value = value % 10 ** (r * 2)
-    valueSquare = value ** 2
-    startDigit = r * 3 / 2 + 1
-    midValue = int(
-        ("{:0" + str(r * 4) + "d}").format(valueSquare)[
-            startDigit:startDigit + 4
-        ]
-    )
-    return midValue
-
-def hashString(key):
-    """
-    Hash the key with 4 bytes folding.
-
-    :param key:   the key to the hash function
-    :return    a hash value
-    """
-
-    value = 0
-    for i in range(0, len(key), 4):
-        subKey = key[i:i + 4]
-        subValue = int(
-            "".join(["{0:08b}".format(ord(c)) for c in key]), 2
-        )
-        value += subValue
-
-    return value
-
-
 def testMap():
     """
     Main testing function.
     """
-    Alice = listOfWords("Alice's Adventures in Wonderland.txt")
     PeterPan = listOfWords("Peter Pan.txt")
     ThePrince = listOfWords("The Prince.txt")
 
-    map = Hashmap(initsz=1024, maxload=0.8)
+    map = Hashmap(hash_func=hashRandomShuffle, initsz=1024, maxload=0.6)
 
     for word in ThePrince:
         if (map.contains(word)):
