@@ -1,5 +1,5 @@
 """
-GeneTester.py
+genetester.py
 
 Testing program of the DNAList. The tester test every functions of the list,
 to determine whether the data structure implement correctly.
