@@ -8,7 +8,7 @@ Author: Jietong Chen
         Leilei Sun
 """
 
-from DNAList import *
+from dnalist import *
 
 
 def main():
