@@ -1,11 +1,13 @@
 """
+Lab 7
+Author: Jietong Chen
+        Leilei Sun
 
+Hash table with different hash functions.
 """
 
-__author__ = 'zjb'
 from collections import namedtuple
 import re
-import sys
 
 Entry = namedtuple('Entry', ('key', 'value'))
 
@@ -133,6 +135,7 @@ class Hashmap:
 
         return self.table[index] is not None
 
+
 def listOfWords(filename):
     """
     Open a file and return a list of every words in the file.
@@ -165,6 +168,28 @@ def listOfWords(filename):
 def printMap(map):
     for i in range(map.cap):
         print(str(i) + ": " + str(map.table[i]))
+
+    print("\ncollisions: %d\nprobes:     %d\n" % (map.collision, map.probe))
+
+
+def printMax(map):
+    """
+    Find and print the most frequently appears word in the hash map, and its
+    appearance times.
+
+    :param map:    the hash map
+    """
+    maxNum = 0
+    maxWord = None
+
+    for i in range(map.cap):
+        if (map.table[i] is not None):
+            if (map.table[i].value > maxNum):
+                maxNum = map.table[i].value
+                maxWord = map.table[i].key
+
+    print("Most frequently appears word:  %s" % maxWord)
+    print("Appearance times:              %d" % maxNum)
 
 
 def hashMidSquare(key, r=4):
@@ -206,32 +231,24 @@ def hashString(key):
 
 
 def testMap():
+    """
+    Main testing function.
+    """
     Alice = listOfWords("Alice's Adventures in Wonderland.txt")
-    print(Alice)
     PeterPan = listOfWords("Peter Pan.txt")
-    print(PeterPan)
+    ThePrince = listOfWords("The Prince.txt")
 
-    # map = Hashmap(initsz=5)
-    # map.put('apple', 1)
-    # map.put('banana', 2)
-    # map.put('orange', 15)
-    # printMap(map)
-    # print(map.contains('apple'))
-    # print(map.contains('grape'))
-    # print(map.get('orange'))
-    #
-    # print('--------- adding one more to force table resize ')
-    # map.put('grape', 7)
-    # printMap(map)
-    #
-    # print('--------- testing remove')
-    # map.remove('apple')
-    # printMap(map)
-    #
-    # print('--------- testing add to a DELETED location')
-    # map.put('peach', 16)
-    # printMap(map)
-    # print(map.get('grape'))
+    map = Hashmap(initsz=1024, maxload=0.8)
+
+    for word in ThePrince:
+        if (map.contains(word)):
+            num = map.get(word)
+            map.put(word, num + 1)
+        else:
+            map.put(word, 1)
+
+    printMap(map)
+    printMax(map)
 
 
 if __name__ == '__main__':
