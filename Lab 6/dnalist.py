@@ -1,5 +1,5 @@
 """
-DNAList.py
+dnalist.py
 
 Definition of the DNAList class.
 
