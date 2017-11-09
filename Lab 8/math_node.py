@@ -79,16 +79,16 @@ class MathNode:
             is attempted, with the message, 'Division by zero error'
         :return: The result of performing the math operation (int)
         """
-        if self.token is pretee.PreTee.ADD_TOKEN:
+        if self.token == pretee.PreTee.ADD_TOKEN:
             return self.left.evaluate() + self.right.evaluate()
 
-        elif self.token is pretee.PreTee.SUBTRACT_TOKEN:
+        elif self.token == pretee.PreTee.SUBTRACT_TOKEN:
             return self.left.evaluate() - self.right.evaluate()
 
-        elif self.token is pretee.PreTee.MULTIPLY_TOKEN:
+        elif self.token == pretee.PreTee.MULTIPLY_TOKEN:
             return self.left.evaluate() * self.right.evaluate()
 
-        elif self.token is pretee.PreTee.DIVIDE_TOKEN:
+        elif self.token == pretee.PreTee.DIVIDE_TOKEN:
             divisor = self.right.evaluate()
 
             if divisor != 0:
