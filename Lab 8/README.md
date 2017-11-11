@@ -8,7 +8,7 @@ The interpreter accepts *prefix* mathematical expressions as input, where a pref
 
 Consider the following example using the prefix expression: **''\* 8 + x y''**
 
-![Lab8-1](https://i.imgur.com/gADuQoZ.png)
+![Lab8-1](https://i.imgur.com/lIoAwdE.png)
 
 Let’s assume that the parse tree has already been constructed from the prefix expression. The infix form of the expression can be obtained by doing an **inorder** (left, parent, right) traversal of the tree from the root and constructing a string. Recall the private **__inorder** helper function from lecture that **__str\__** called when getting a string representation of a general purpose tree.
 
