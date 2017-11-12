@@ -313,7 +313,7 @@ The full object oriented design is diagrammed above. It involves the following c
 
 ### Python Documentation
 
-The pydocs for all the classes have been generated in HTML and are stored on the MyCourses content section for this lab.
+The [pydocs for all the classes](https://drive.google.com/open?id=10E4k1TPre92eJ6TJRDYgx6pPth4Q5lve) have been generated in HTML and are stored on the MyCourses content section for this lab.
 
 ### Interpreter Design
 
@@ -356,7 +356,7 @@ All Node classes implement three methods:
 
 ### Starting Code
 
-You should first download the starter code, **pretee.zip** from MyCourses under the Content Area for this lab. Unzip the code and import it into a new project in PyCharm. It should run without error but produce no real output.
+You should first download the starter code, [**pretee.zip**](https://drive.google.com/open?id=1mRe-f52DLKlr3csEV7X1WQQ_62z8jiH5) from MyCourses under the Content Area for this lab. Unzip the code and import it into a new project in PyCharm. It should run without error but produce no real output.
 
 ### Provided Modules
 
