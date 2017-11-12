@@ -10,7 +10,7 @@ Consider the following example using the prefix expression: **''\* 8 + x y''**
 
 ![Lab8-1](https://i.imgur.com/zwj3YYB.png)
 
-Let’s assume that the parse tree has already been constructed from the prefix expression. The infix form of the expression can be obtained by doing an **inorder** (left, parent, right) traversal of the tree from the root and constructing a string. Recall the private **__inorder** helper function from lecture that **__str\__** called when getting a string representation of a general purpose tree.
+Let’s assume that the parse tree has already been constructed from the prefix expression. The infix form of the expression can be obtained by doing an **inorder** (left, parent, right) traversal of the tree from the root and constructing a string. Recall the private **`__inorder`** helper function from lecture that **`__str__`** called when getting a string representation of a general purpose tree.
 
 ```python
 def __inorder(self, node):
@@ -58,7 +58,7 @@ For example:
 = x 40
 ```
 When emitted, the variable is emitted, followed by the equals sign, followed by the emission of the expression that followed.
-```python
+```
 x = 10
 y = 20
 z = (x + y)
@@ -95,7 +95,7 @@ For example:
 @ x             # assuming x = 10
 ```
 When emitted, the string **''print''** is emitted, followed by a space, and the emission of the expression that follows.
-```python
+```
 print
 print 10
 print (10 + 20)
@@ -148,7 +148,7 @@ y
 variable
 ```
 When emitted, the variable name is returned as a string, e.g.:
-```python
+```
 x
 y
 variable
@@ -295,21 +295,21 @@ Using the example above, these are the runtime errors you need to deal with:
 
 The full object oriented design is diagrammed above. It involves the following classes
 
-- **PreTee**: The main interpreter class. It is responsible for parsing the PreTee source code, displaying it in infix, and then executing it.
+- **`PreTee`**: The main interpreter class. It is responsible for parsing the PreTee source code, displaying it in infix, and then executing it.
 
-- **AssignmentNode**: A class to represent the assignment node. It assigns the result of an expression to a variable.
+- **`AssignmentNode`**: A class to represent the assignment node. It assigns the result of an expression to a variable.
 
-- **LiteralNode**: A class to represent a literal node containing a positive integer.
+- **`LiteralNode`**: A class to represent a literal node containing a positive integer.
 
-- **MathNode**: A class to represent a mathematical node. It contains the operation, plus the left and right expressions.
+- **`MathNode`**: A class to represent a mathematical node. It contains the operation, plus the left and right expressions.
 
-- **PrintNode**: A class to to represent a print node. It displays the result of an expression to standard output.
+- **`PrintNode`**: A class to to represent a print node. It displays the result of an expression to standard output.
 
-- **VariableNode**: A class to represent a variable node. It stores the id of the variable and can retrieve its stored value from the symbol table.
+- **`VariableNode`**: A class to represent a variable node. It stores the id of the variable and can retrieve its stored value from the symbol table.
 
-- **SyntaxError**: An exception class used to indicate syntax errors when compiling the code.
+- **`SyntaxError`**: An exception class used to indicate syntax errors when compiling the code.
 
-- **RuntimeError**: An exception class used to indicate runtime errors that occur during execution.
+- **`RuntimeError`**: An exception class used to indicate runtime errors that occur during execution.
 
 ### Python Documentation
 
@@ -317,28 +317,28 @@ The [pydocs for all the classes](https://drive.google.com/open?id=10E4k1TPre92eJ
 
 ### Interpreter Design
 
-The **PreTree** class is the heart of the interpreter. It contains the following slots:
+The **`PreTree`** class is the heart of the interpreter. It contains the following slots:
 
-- **srcFile**: the name of the source file (string)
+- **`srcFile`**: the name of the source file (string)
 
-- **symTbl**: the symbol table (dictionary: key=string, value=int)
+- **`symTbl`**: the symbol table (dictionary: key=string, value=int)
 
-- **parseTrees**: a list of the root nodes for valid, non-commented line of code
+- **`parseTrees`**: a list of the root nodes for valid, non-commented line of code
 
-- **lineNum**: when parsing, the current line number in the source file (int)
+- **`lineNum`**: when parsing, the current line number in the source file (int)
 
-- **syntaxError**: indicates whether a syntax error occurred during parsing (bool). If there
+- **`syntaxError`**: indicates whether a syntax error occurred during parsing (bool). If there
 is a syntax error, the parse trees will not be evaluated
 
 The routines that are used by the main program are:
 
-- **__init\__** : A constructor for initializing the interpreter.
+- **`__init__`** : A constructor for initializing the interpreter.
 
-- **parse**: The compilation phase that parses the source code and builds the parse trees.
+- **`parse`**: The compilation phase that parses the source code and builds the parse trees.
 
-- **emit**: The generation of the infix form of the parse trees.
+- **`emit`**: The generation of the infix form of the parse trees.
 
-- **evaluate**: The execution of the parse trees and generation of output.
+- **`evaluate`**: The execution of the parse trees and generation of output.
 
 ### Node Design
 
@@ -362,24 +362,24 @@ You should first download the starter code, [**pretee.zip**](https://drive.googl
 
 We are giving you all the python source code for the project:
 
-- **pretee.py**: The main program which contains the **PreTree** class. The main program is given to you completely and should not be changed. You will be implementing all the methods for the **PreTree** class.
+- **pretee.py**: The main program which contains the **`PreTree`** class. The main program is given to you completely and should not be changed. You will be implementing all the methods for the **`PreTree`** class.
 
   For **PreTee** (and all other classes), the class, slots, methods and docstring’s are all given to you. You are not allowed to change any of the slots, or method names. You should write your code in the provided methods and not create any additional ones. You are free to use whatever local variables you want in the methods, but there should be no use of globals. For any files you contribute to, make sure your name/s are added as authors in the top docstring for the module.
 
-- **assignment_node.py**: This is a complete implementation of the **AssignmentNode** class. You should not alter this file at all. It is being given to you as a demonstration of how one node is implemented.
+- **assignment_node.py**: This is a complete implementation of the **`AssignmentNode`** class. You should not alter this file at all. It is being given to you as a demonstration of how one node is implemented.
 
-- **literal_node.py**: Contains the **LiteralNode** class that you will provide implementation for the methods contained within.
+- **literal_node.py**: Contains the **`LiteralNode`** class that you will provide implementation for the methods contained within.
 
-- **math_node.py**: Contains the **MathNode** class that you will provide implementation for the methods contained within.
+- **math_node.py**: Contains the **`MathNode`** class that you will provide implementation for the methods contained within.
 
-- **print_node.py**: Contains the **PrintNode** class that you will provide implementation for the methods contained within.
+- **print_node.py**: Contains the **`PrintNode`** class that you will provide implementation for the methods contained within.
 
-- **variable_node.py**: Contains the **VariableNode** class that you will provide implementation for the methods contained within.
+- **variable_node.py**: Contains the **`VariableNode`** class that you will provide implementation for the methods contained within.
 
-- **runtime_error.py**: The definition of the **RuntimeError** exception class. You should not modify this file.
+- **runtime_error.py**: The definition of the **`RuntimeError`** exception class. You should not modify this file.
 
-- **syntax error.py**: The definition of the **SyntaxError** exception class. You should not modify this file.
+- **syntax_error.py**: The definition of the **`SyntaxError`** exception class. You should not modify this file.
 
 #### Restrictions
 
-You are not allowed to use Python’s build in **eval()** method for evaluating nodes. All nodes must be evaluating by traversing the parse trees from the root.
+You are not allowed to use Python’s build in **`eval()`** method for evaluating nodes. All nodes must be evaluating by traversing the parse trees from the root.
