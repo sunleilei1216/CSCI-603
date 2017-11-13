@@ -15,7 +15,7 @@ Let’s assume that the parse tree has already been constructed from the prefix 
 ```python
 def __inorder(self, node):
     if not node:
-        return ’ ’
+        return ' '
     else:
         return self.__inorder(node.left) + \
                str(node.val) + \
