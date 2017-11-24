@@ -242,7 +242,8 @@ class PreTee:
                   % self.srcFile)
 
         else:
-            pass
+            for parseTree in self.parseTrees:
+                parseTree.evaluate()
 
 
 def main():
